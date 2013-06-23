@@ -1,0 +1,52 @@
+﻿-- Table: premises
+
+-- DROP TABLE premises;
+
+CREATE TABLE premises
+(
+  premises_id bigint NOT NULL,
+  tenant_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  legacy_site_id character varying(50),
+  description character varying(50),
+  timezone character varying(40) NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  address1 character varying(255),
+  address2 character varying(255),
+  city character varying(100),
+  province character varying(50),
+  zipcode character varying(40) NOT NULL DEFAULT '22201'::character varying,
+  country character varying(100),
+  phone1 character varying(50),
+  CONSTRAINT pk_premises PRIMARY KEY (premises_id),
+  CONSTRAINT tenant_premises FOREIGN KEY (tenant_id)
+      REFERENCES tenant (tenant_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE premises
+  OWNER TO postgres;
+
+-- Trigger: trg_premises_creation on premises
+
+-- DROP TRIGGER trg_premises_creation ON premises;
+
+CREATE TRIGGER trg_premises_creation
+  BEFORE INSERT
+  ON premises
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_premises_modification on premises
+
+-- DROP TRIGGER trg_premises_modification ON premises;
+
+CREATE TRIGGER trg_premises_modification
+  BEFORE INSERT OR UPDATE
+  ON premises
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

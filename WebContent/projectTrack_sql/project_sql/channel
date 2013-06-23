@@ -1,0 +1,32 @@
+﻿-- Table: channel
+
+-- DROP TABLE channel;
+
+CREATE TABLE channel
+(
+  channel_id bigint NOT NULL,
+  channel_name character varying(255) NOT NULL,
+  reference_id character varying(255),
+  device_id bigint,
+  display_name character varying(255),
+  scale real NOT NULL DEFAULT 1.0,
+  granularity smallint NOT NULL DEFAULT (-1),
+  locked boolean NOT NULL DEFAULT false,
+  version integer NOT NULL DEFAULT 0,
+  virtual_channel boolean NOT NULL DEFAULT false,
+  disabled boolean NOT NULL DEFAULT false,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  unit_identifier character varying(255),
+  subcategory character varying(255),
+  channel_total_type_id smallint NOT NULL DEFAULT 0,
+  CONSTRAINT pk_channel PRIMARY KEY (channel_id),
+  CONSTRAINT device_channel FOREIGN KEY (device_id)
+      REFERENCES device (device_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE channel
+  OWNER TO postgres;

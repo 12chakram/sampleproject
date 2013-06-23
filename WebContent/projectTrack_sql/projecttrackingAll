@@ -1,0 +1,67 @@
+﻿-- Table: project_type
+
+-- DROP TABLE project_type;
+
+CREATE TABLE project_type
+(
+  project_type_id bigint NOT NULL,
+  project_type character varying,
+  CONSTRAINT project_type_id_pk PRIMARY KEY (project_type_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_type
+  OWNER TO postgres;
+GRANT ALL ON TABLE project_type TO postgres;
+----------------------------------------------------------------
+-- Table: project_tracking_item
+
+-- DROP TABLE project_tracking_item;
+
+CREATE TABLE project_tracking_item
+(
+  project_id bigint NOT NULL,
+  project_name character varying,
+  start_date date,
+  end_date date,
+  project_type_id bigint,
+  channels character varying,
+  premises_id bigint,
+  CONSTRAINT project_id_pk PRIMARY KEY (project_id),
+  CONSTRAINT premise_id_fk FOREIGN KEY (premises_id)
+      REFERENCES premises (premises_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT project_type_fk FOREIGN KEY (project_type_id)
+      REFERENCES project_type (project_type_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_tracking_item
+  OWNER TO postgres;
+GRANT ALL ON TABLE project_tracking_item TO postgres;
+-------------------------------------------------
+
+
+-- Table: premises
+
+-- DROP TABLE premises;
+
+CREATE TABLE premises
+(
+  premises_id bigint NOT NULL,
+  tenant_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  description character varying(50),
+  timezone character varying(40) NOT NULL,
+  CONSTRAINT premises_id_pk PRIMARY KEY (premises_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE premises
+  OWNER TO postgres;
+GRANT ALL ON TABLE premises TO postgres;
+

@@ -1,0 +1,62 @@
+﻿-- Table: tenant
+
+-- DROP TABLE tenant;
+
+CREATE TABLE tenant
+(
+  tenant_id bigint NOT NULL,
+  name character varying(100) NOT NULL,
+  tenant_url character varying(255),
+  parent_id bigint NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  inherit_color_configs boolean DEFAULT false,
+  eula_inherited boolean,
+  eula_required boolean,
+  eula_exception boolean,
+  has_project_tracking boolean NOT NULL DEFAULT false,
+  premises_id bigint,
+  CONSTRAINT pk_tenant PRIMARY KEY (tenant_id),
+  CONSTRAINT fk_tenant_parent FOREIGN KEY (parent_id)
+      REFERENCES tenant (tenant_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT premises_tenat FOREIGN KEY (premises_id)
+      REFERENCES premises (premises_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE tenant
+  OWNER TO postgres;
+
+-- Index: unq_tenant_name
+
+-- DROP INDEX unq_tenant_name;
+
+CREATE UNIQUE INDEX unq_tenant_name
+  ON tenant
+  USING btree
+  (lower(name::text) COLLATE pg_catalog."default");
+
+
+-- Trigger: trg_tenant_creation on tenant
+
+-- DROP TRIGGER trg_tenant_creation ON tenant;
+
+CREATE TRIGGER trg_tenant_creation
+  BEFORE INSERT
+  ON tenant
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_tenant_modification on tenant
+
+-- DROP TRIGGER trg_tenant_modification ON tenant;
+
+CREATE TRIGGER trg_tenant_modification
+  BEFORE INSERT OR UPDATE
+  ON tenant
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

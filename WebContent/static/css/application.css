@@ -1,0 +1,56 @@
+body {
+	
+  padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+
+}
+.navbar .brand {
+  padding: 5px 1px 1px 1px !important;
+}
+
+.footer {
+ 
+  //background-color: #eee;
+  height: 20px; 
+  
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+input, textarea { color: #000; }
+
+.placeholder { color: #aaa; }
+
+.header-placeholder{height:65px;}
+
+
+.popupbox {
+	width:500px;
+	height:300px;
+	background-image:url(/edit_media/2010/201010/20101009/custompopup/images/pop-up_03.png);
+	background-repeat:no-repeat;
+	display: none; /* Hidden as default */
+	float: left;
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 99999;
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+}
+
+#fade { 
+	display: none; /* Hidden as default */
+	background: #000;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity: 0.15;
+	z-index: 9999;
+}
+#intabdiv {
+	text-align:center;
+}
+#close img {
+	text-decoration:none;
+}

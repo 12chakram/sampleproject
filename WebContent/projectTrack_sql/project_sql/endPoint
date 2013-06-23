@@ -1,0 +1,39 @@
+﻿-- Table: endpoint
+
+-- DROP TABLE endpoint;
+
+CREATE TABLE endpoint
+(
+  endpoint_id bigint NOT NULL,
+  reference_id character varying(255) NOT NULL,
+  password character varying(255),
+  premises_id bigint,
+  endpoint_type_id bigint,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  mac_address bigint,
+  serial character varying(255),
+  version_major_number integer,
+  version_minor_number integer,
+  version_revision_number integer,
+  device_id bigint,
+  CONSTRAINT pk_endpoint PRIMARY KEY (endpoint_id),
+  CONSTRAINT endpoint_device_id_fkey FOREIGN KEY (device_id)
+      REFERENCES device (device_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT endpoint_type_endpoint FOREIGN KEY (endpoint_type_id)
+      REFERENCES endpoint_type (endpoint_type_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT premises_endpoint FOREIGN KEY (premises_id)
+      REFERENCES premises (premises_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tuc_endpoint_1 UNIQUE (reference_id),
+  CONSTRAINT unq_mac_address UNIQUE (mac_address),
+  CONSTRAINT ck_mac_address_max CHECK (mac_address < 281474976710655::bigint),
+  CONSTRAINT ck_mac_address_min CHECK (mac_address > (-1))
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE endpoint
+  OWNER TO postgres;

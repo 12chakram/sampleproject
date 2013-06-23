@@ -1,0 +1,53 @@
+﻿-- Table: device
+
+-- DROP TABLE device;
+
+CREATE TABLE device
+(
+  device_id bigint NOT NULL,
+  endpoint_id bigint NOT NULL,
+  device_type_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  address character varying(255),
+  meter_id bigint,
+  legacy_id bigint,
+  model_number character varying(255),
+  main_amperage real,
+  tonnage integer,
+  brand character varying(255),
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  CONSTRAINT pk_device PRIMARY KEY (device_id),
+  CONSTRAINT endpoint_device FOREIGN KEY (endpoint_id)
+      REFERENCES endpoint (endpoint_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_device_type FOREIGN KEY (device_type_id)
+      REFERENCES device_type (device_type_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE device
+  OWNER TO postgres;
+
+-- Trigger: trg_device_creation on device
+
+-- DROP TRIGGER trg_device_creation ON device;
+
+CREATE TRIGGER trg_device_creation
+  BEFORE INSERT
+  ON device
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_device_modification on device
+
+-- DROP TRIGGER trg_device_modification ON device;
+
+CREATE TRIGGER trg_device_modification
+  BEFORE INSERT OR UPDATE
+  ON device
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

@@ -1,0 +1,31 @@
+﻿-- Table: project_tracking_audit
+
+-- DROP TABLE project_tracking_audit;
+
+CREATE TABLE project_tracking_audit
+(
+  project_tracking_audit_id bigint NOT NULL,
+  actor_enduser_id bigint NOT NULL,
+  creation_date timestamp without time zone NOT NULL,
+  operation character varying NOT NULL,
+  project_id bigint NOT NULL,
+  premises_id bigint NOT NULL,
+  project_name character varying,
+  CONSTRAINT project_tracking_audit_pkey PRIMARY KEY (project_tracking_audit_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_tracking_audit
+  OWNER TO postgres;
+
+-- Trigger: trg_project_tracking_audit_creation on project_tracking_audit
+
+-- DROP TRIGGER trg_project_tracking_audit_creation ON project_tracking_audit;
+
+CREATE TRIGGER trg_project_tracking_audit_creation
+  BEFORE INSERT
+  ON project_tracking_audit
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+

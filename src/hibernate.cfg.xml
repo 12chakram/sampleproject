@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    
+      
+        
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.default_schema">public</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        
+
+        <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="hibernate.show_sql">false</property>
+
+
+	<mapping class="com.eng.gp.project.data.Users" />
+	<mapping class="com.eng.gp.project.entity.ProjectTypeEntity" />
+	<mapping class="com.eng.gp.project.entity.ProjectTrackingItemEntity" />
+	<mapping class="com.eng.gp.project.entity.PremisesEntity" />
+	<mapping class="com.eng.gp.project.entity.ChannelEntity" />
+	<mapping class="com.eng.gp.project.entity.DeviceEntity" />
+	<mapping class="com.eng.gp.project.entity.EndpointEntity" />
+	<mapping class="com.eng.gp.project.entity.EndpointTypeEntity" />
+	<mapping class="com.eng.gp.project.entity.EndUserEntity" />
+	<mapping class="com.eng.gp.project.entity.RoleEntity" />
+	<mapping class="com.eng.gp.project.entity.DeviceTypeEntity" />
+	<mapping class="com.eng.gp.project.entity.TenantEntity" />
+       
+        
+    </session-factory>
+</hibernate-configuration>

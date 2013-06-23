@@ -1,0 +1,59 @@
+﻿-- Table: project_tracking_item
+
+-- DROP TABLE project_tracking_item;
+
+CREATE TABLE project_tracking_item
+(
+  project_id bigint NOT NULL,
+  project_name character varying,
+  start_date timestamp without time zone,
+  end_date timestamp without time zone,
+  project_type_id bigint,
+  premises_id bigint,
+  is_deprecated boolean NOT NULL DEFAULT false,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  CONSTRAINT project_id_pk PRIMARY KEY (project_id),
+  CONSTRAINT premise_id_fk FOREIGN KEY (premises_id)
+      REFERENCES premises (premises_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT project_type_fk FOREIGN KEY (project_type_id)
+      REFERENCES project_type (project_type_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_tracking_item
+  OWNER TO postgres;
+
+-- Index: idx_projecttrackingitem_1
+
+-- DROP INDEX idx_projecttrackingitem_1;
+
+CREATE UNIQUE INDEX idx_projecttrackingitem_1
+  ON project_tracking_item
+  USING btree
+  (premises_id, lower(project_name::text) COLLATE pg_catalog."default");
+
+
+-- Trigger: trg_project_tracking_item_creation on project_tracking_item
+
+-- DROP TRIGGER trg_project_tracking_item_creation ON project_tracking_item;
+
+CREATE TRIGGER trg_project_tracking_item_creation
+  BEFORE INSERT
+  ON project_tracking_item
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_project_tracking_item_modification on project_tracking_item
+
+-- DROP TRIGGER trg_project_tracking_item_modification ON project_tracking_item;
+
+CREATE TRIGGER trg_project_tracking_item_modification
+  BEFORE INSERT OR UPDATE
+  ON project_tracking_item
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

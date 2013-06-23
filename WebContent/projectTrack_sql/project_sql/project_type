@@ -1,0 +1,15 @@
+﻿-- Table: project_type
+
+-- DROP TABLE project_type;
+
+CREATE TABLE project_type
+(
+  project_type_id bigint NOT NULL,
+  project_type character varying,
+  CONSTRAINT project_type_id_pk PRIMARY KEY (project_type_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE project_type
+  OWNER TO postgres;

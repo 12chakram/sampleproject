@@ -1,0 +1,41 @@
+﻿-- Table: endpoint_type
+
+-- DROP TABLE endpoint_type;
+
+CREATE TABLE endpoint_type
+(
+  endpoint_type_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  description character varying(255) NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  virtual boolean NOT NULL,
+  CONSTRAINT pk_endpoint_type PRIMARY KEY (endpoint_type_id),
+  CONSTRAINT tuc_endpoint_type_1 UNIQUE (name)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE endpoint_type
+  OWNER TO postgres;
+
+-- Trigger: trg_endpoint_type_creation on endpoint_type
+
+-- DROP TRIGGER trg_endpoint_type_creation ON endpoint_type;
+
+CREATE TRIGGER trg_endpoint_type_creation
+  BEFORE INSERT
+  ON endpoint_type
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_endpoint_type_modification on endpoint_type
+
+-- DROP TRIGGER trg_endpoint_type_modification ON endpoint_type;
+
+CREATE TRIGGER trg_endpoint_type_modification
+  BEFORE INSERT OR UPDATE
+  ON endpoint_type
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

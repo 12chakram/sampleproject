@@ -1,0 +1,56 @@
+﻿-- Table: enduser
+
+-- DROP TABLE enduser;
+
+CREATE TABLE enduser
+(
+  enduser_id bigint NOT NULL,
+  role_id bigint NOT NULL,
+  username character varying(255) NOT NULL,
+  password character varying(255) NOT NULL,
+  email character varying(255) NOT NULL,
+  first_name character varying(255) NOT NULL,
+  last_name character varying(255) NOT NULL,
+  enabled boolean NOT NULL,
+  not_locked_out boolean NOT NULL,
+  reset_password boolean NOT NULL DEFAULT true,
+  num_failed_logins smallint NOT NULL,
+  last_login_date timestamp without time zone,
+  last_failed_attempt_date timestamp without time zone,
+  last_read_news_file_date timestamp without time zone NOT NULL DEFAULT now(),
+  language character varying(50) NOT NULL,
+  measurement_system character varying(50) NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  CONSTRAINT pk_enduser PRIMARY KEY (enduser_id),
+  CONSTRAINT role_enduser FOREIGN KEY (role_id)
+      REFERENCES role (role_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tuc_enduser_1 UNIQUE (username)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE enduser
+  OWNER TO postgres;
+
+-- Trigger: trg_enduser_creation on enduser
+
+-- DROP TRIGGER trg_enduser_creation ON enduser;
+
+CREATE TRIGGER trg_enduser_creation
+  BEFORE INSERT
+  ON enduser
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_enduser_modification on enduser
+
+-- DROP TRIGGER trg_enduser_modification ON enduser;
+
+CREATE TRIGGER trg_enduser_modification
+  BEFORE INSERT OR UPDATE
+  ON enduser
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

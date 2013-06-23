@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="custom.js"></script>
+
+<style type="text/css">
+
+/* CSS Document */
+#trigger {	text-align:center;}
+
+/* Style you custom popupbox according to your requirement */
+.popupbox {
+	width:500px;
+	height:300px;
+	background-image:url(/edit_media/2010/201010/20101009/custompopup/images/pop-up_03.png);
+	background-repeat:no-repeat;
+	display: none; /* Hidden as default */
+	float: left;
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 99999;
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+}
+
+#fade { 
+	display: none; /* Hidden as default */
+	background: #000;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity: 0.15;
+	z-index: 9999;
+}
+#intabdiv {
+	text-align:center;
+}
+#close img {
+	text-decoration:none;
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="popupbox" id="popuprel">
+<div id="intabdiv">
+             <h3>Pending Appointment</h3>
+    <div class="PopupBody">
+      <div class="PopupLeftContent"><img src="images/RemoveIcon.png" width="81" height="81" alt="" /></div>
+      <div class="PopupRightContent">
+        <h4>Are you sure you want to Approve the Appointment</h4>
+        <br />
+      </div>
+    </div>
+    <div class="PopUpButton Fleft">
+      <input type="submit" value="YES" name="yes" >    <br/>
+       <input type="submit" value="NO" name="no" >    
+   </div>
+</div>
+
+
+
+<div id="ConfirmMemberRemoval" class="popupContact" style="z-index:10003;">
+  <div class="popup_textarea">
+    
+    </div>
+  </div>
+</div>
+
+<div id="popuparea">
+   <a href="#" rel="popuprel" class="popup">Edit member’s image</a>
+   
+</div>
+</body>
+</html>

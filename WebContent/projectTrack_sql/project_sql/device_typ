@@ -1,0 +1,39 @@
+﻿-- Table: device_type
+
+-- DROP TABLE device_type;
+
+CREATE TABLE device_type
+(
+  device_type_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  CONSTRAINT pk_device_type PRIMARY KEY (device_type_id),
+  CONSTRAINT tuc_device_type_1 UNIQUE (name)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE device_type
+  OWNER TO postgres;
+
+-- Trigger: trg_device_type_creation on device_type
+
+-- DROP TRIGGER trg_device_type_creation ON device_type;
+
+CREATE TRIGGER trg_device_type_creation
+  BEFORE INSERT
+  ON device_type
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_device_type_modification on device_type
+
+-- DROP TRIGGER trg_device_type_modification ON device_type;
+
+CREATE TRIGGER trg_device_type_modification
+  BEFORE INSERT OR UPDATE
+  ON device_type
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+

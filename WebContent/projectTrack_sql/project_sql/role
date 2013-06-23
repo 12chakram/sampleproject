@@ -1,0 +1,40 @@
+﻿-- Table: role
+
+-- DROP TABLE role;
+
+CREATE TABLE role
+(
+  role_id bigint NOT NULL,
+  name character varying(50) NOT NULL,
+  description character varying(255) NOT NULL,
+  creation_date timestamp without time zone,
+  modification_date timestamp without time zone,
+  CONSTRAINT pk_role PRIMARY KEY (role_id),
+  CONSTRAINT tuc_role_1 UNIQUE (name)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE role
+  OWNER TO postgres;
+
+-- Trigger: trg_role_creation on role
+
+-- DROP TRIGGER trg_role_creation ON role;
+
+CREATE TRIGGER trg_role_creation
+  BEFORE INSERT
+  ON role
+  FOR EACH ROW
+  EXECUTE PROCEDURE creation_date();
+
+-- Trigger: trg_role_modification on role
+
+-- DROP TRIGGER trg_role_modification ON role;
+
+CREATE TRIGGER trg_role_modification
+  BEFORE INSERT OR UPDATE
+  ON role
+  FOR EACH ROW
+  EXECUTE PROCEDURE modification_date();
+
